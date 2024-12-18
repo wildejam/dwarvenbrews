@@ -1,0 +1,130 @@
+[gd_scene load_steps=22 format=3 uid="uid://c12vjw0lbgd4t"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer.gd" id="1_syig2"]
+[ext_resource type="Material" uid="uid://b1cnylgo04eyp" path="res://assets/textures/goblin_footsoldier.tres" id="2_gd20j"]
+[ext_resource type="Script" path="res://Scripts/State/State Machine.gd" id="3_mdfi0"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer_idle.gd" id="4_tm1qr"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer_attack.gd" id="5_yappr"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer_alerted.gd" id="6_cstdh"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer_damaged.gd" id="7_wx2ao"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_archer/goblin_archer_death.gd" id="8_r53b6"]
+[ext_resource type="PackedScene" uid="uid://c555wkqgwthfb" path="res://Scenes/enemies/arrow.tscn" id="9_1ipgv"]
+[ext_resource type="AudioStream" uid="uid://wmk6ikw1okit" path="res://assets/sfx/alerted.wav" id="10_jrr07"]
+[ext_resource type="AudioStream" uid="uid://ce6e54ddpm81a" path="res://assets/sfx/damaged.wav" id="11_24yxk"]
+[ext_resource type="AudioStream" uid="uid://dbjkoafry61r2" path="res://assets/sfx/death.wav" id="12_hxcwj"]
+[ext_resource type="AudioStream" uid="uid://bdruv3evlraap" path="res://assets/sfx/swing.wav" id="13_g18ka"]
+[ext_resource type="PackedScene" uid="uid://dxds0a6roh6et" path="res://Scenes/goblin_imports/GobbinCrossbowActive.glb" id="14_0p35s"]
+[ext_resource type="PackedScene" uid="uid://khiuppl643me" path="res://Scenes/goblin_imports/GobbinCrossbowInactive.glb" id="15_27n43"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7knao"]
+material = ExtResource("2_gd20j")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y1uqr"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_ee8kw"]
+outer_radius = 0.595
+rings = 4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pud7t"]
+
+[sub_resource type="Animation" id="Animation_2m14k"]
+resource_name = "float"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GobbinCrossbowInactive:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.00720453, 0.0161142, -0.00938749), Vector3(0.007, -0.159, -0.009), Vector3(0.007, 0.301, -0.009)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0x06w"]
+_data = {
+"float": SubResource("Animation_2m14k")
+}
+
+[node name="goblin_archer" type="CharacterBody3D"]
+script = ExtResource("1_syig2")
+
+[node name="body_mesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_7knao")
+
+[node name="body_collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_y1uqr")
+
+[node name="bow_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.907675, 0.419674, 1.83445e-08, 0, -4.37114e-08, 1, 0.419674, 0.907675, 3.96757e-08, -0.5, 0.368, -0.416215)
+visible = false
+mesh = SubResource("TorusMesh_ee8kw")
+skeleton = NodePath("../body_mesh")
+
+[node name="hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_pud7t")
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_mdfi0")
+initial_state = NodePath("goblin_archer_attack")
+
+[node name="goblin_archer_idle" type="Node" parent="State Machine"]
+script = ExtResource("4_tm1qr")
+
+[node name="goblin_archer_attack" type="Node" parent="State Machine"]
+script = ExtResource("5_yappr")
+
+[node name="goblin_archer_alerted" type="Node" parent="State Machine"]
+script = ExtResource("6_cstdh")
+
+[node name="goblin_archer_damaged" type="Node" parent="State Machine"]
+script = ExtResource("7_wx2ao")
+
+[node name="goblin_archer_death" type="Node" parent="State Machine"]
+script = ExtResource("8_r53b6")
+
+[node name="player_raycast" type="RayCast3D" parent="."]
+top_level = true
+target_position = Vector3(0, 0, 1)
+
+[node name="nav_agent" type="NavigationAgent3D" parent="."]
+
+[node name="arrow" parent="." instance=ExtResource("9_1ipgv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -1.1)
+freeze = true
+
+[node name="alerted" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_jrr07")
+
+[node name="damaged" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("11_24yxk")
+
+[node name="death" type="AudioStreamPlayer3D" parent="."]
+process_mode = 3
+stream = ExtResource("12_hxcwj")
+
+[node name="swing" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("13_g18ka")
+
+[node name="GobbinCrossbowActive" parent="." instance=ExtResource("14_0p35s")]
+transform = Transform3D(-0.75, 0, -1.13247e-07, 0, 0.75, 0, 1.13247e-07, 0, -0.75, 0.0084753, 0.0142133, -0.00582683)
+visible = false
+
+[node name="GobbinCrossbowInactive" parent="." instance=ExtResource("15_27n43")]
+transform = Transform3D(-0.75, 0, 1.13247e-07, 0, 0.75, 0, -1.13247e-07, 0, -0.75, 0.00720453, 0.0161142, -0.00938749)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0x06w")
+}
+autoplay = "float"
+
+[connection signal="arrow_fired" from="State Machine/goblin_archer_attack" to="arrow" method="_on_goblin_archer_attack_arrow_fired"]

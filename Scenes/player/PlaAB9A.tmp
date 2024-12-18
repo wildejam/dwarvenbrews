@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://dwefwf3todll1"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rtp1l"]
+[ext_resource type="PackedScene" uid="uid://b6tqaav7lbuv1" path="res://Scenes/player/explosion_potion.tscn" id="2_cpajr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jpnff"]
+transparency = 1
+depth_draw_mode = 1
+albedo_color = Color(1, 1, 1, 0.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rdv3s"]
+material = SubResource("StandardMaterial3D_jpnff")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7ubug"]
+radius = 0.75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_47tt0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ftekw"]
+radius = 0.75
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18062, 0)
+script = ExtResource("1_rtp1l")
+
+[node name="cannon" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.305, 0, 0, 0, -1.3332e-08, 0.305, 0, -0.305, -1.3332e-08, 0, -0.406, 0.598)
+mesh = SubResource("CylinderMesh_rdv3s")
+
+[node name="player collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+shape = SubResource("CapsuleShape3D_7ubug")
+
+[node name="Player mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+mesh = SubResource("CapsuleMesh_47tt0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="hurtbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+collision_mask = 6
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_ftekw")
+
+[node name="explosion_potion" parent="." instance=ExtResource("2_cpajr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.413, 0.815)
+
+[connection signal="hp_changed" from="." to="." method="_on_hp_changed"]
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="was_fired" from="explosion_potion" to="." method="_on_explosion_potion_was_fired"]

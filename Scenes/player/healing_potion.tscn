@@ -1,0 +1,123 @@
+[gd_scene load_steps=18 format=3 uid="uid://hvb4wp2uismk"]
+
+[ext_resource type="Script" path="res://Scripts/healing_potion.gd" id="1_ob2j3"]
+[ext_resource type="AudioStream" uid="uid://dby3ad4nw35lq" path="res://assets/sfx/potion_gun_fire.wav" id="2_74eqo"]
+[ext_resource type="AudioStream" uid="uid://16mgtq65yo1k" path="res://assets/sfx/glass_shatter.wav" id="3_3ffqp"]
+[ext_resource type="AudioStream" uid="uid://b05ow0nauq127" path="res://assets/sfx/healing_sound.wav" id="4_8upnm"]
+[ext_resource type="PackedScene" uid="uid://bwbcp4xe67bas" path="res://Scenes/player/model_imports/PotionHealing.glb" id="5_5l373"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmyqd"]
+albedo_color = Color(0.392157, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_buc32"]
+material = SubResource("StandardMaterial3D_gmyqd")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3afw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xp73s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4aos7"]
+transparency = 1
+albedo_color = Color(0.831373, 0.913725, 0, 0.294118)
+
+[sub_resource type="SphereMesh" id="SphereMesh_m3ghe"]
+material = SubResource("StandardMaterial3D_4aos7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q5oes"]
+emission_shape = 1
+emission_sphere_radius = 0.36
+direction = Vector3(0, 0, 0)
+spread = 137.488
+initial_velocity_min = 0.4
+initial_velocity_max = 0.4
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -1.1
+radial_accel_max = -1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7oa1"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.486275)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gqlt2"]
+material = SubResource("StandardMaterial3D_e7oa1")
+radial_segments = 6
+rings = 5
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tg1i3"]
+lifetime_randomness = 0.9
+emission_shape_scale = Vector3(0.2, 0, 0.2)
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 112.457
+gravity = Vector3(0, 0.52, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mqwd8"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vkpyu"]
+material = SubResource("StandardMaterial3D_mqwd8")
+radius = 0.016
+height = 0.031
+radial_segments = 4
+rings = 2
+
+[node name="healing_potion" type="RigidBody3D"]
+gravity_scale = 5.004
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_ob2j3")
+
+[node name="healing_potion_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("SphereMesh_buc32")
+skeleton = NodePath("")
+
+[node name="healing_potion_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("SphereShape3D_r3afw")
+
+[node name="healing_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="healing_potion_aoe_collider" type="CollisionShape3D" parent="healing_potion_aoe"]
+shape = SubResource("SphereShape3D_xp73s")
+
+[node name="healing_potion_aoe_visual" type="MeshInstance3D" parent="healing_potion_aoe"]
+visible = false
+mesh = SubResource("SphereMesh_m3ghe")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="healing_potion_aoe"]
+amount = 50
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_q5oes")
+draw_pass_1 = SubResource("SphereMesh_gqlt2")
+
+[node name="potion_gun_fire" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_74eqo")
+volume_db = -15.0
+
+[node name="glass_shatter" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_3ffqp")
+volume_db = -5.0
+max_db = -10.0
+
+[node name="healing_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_8upnm")
+max_db = 0.0
+
+[node name="potion_particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012911, 0.1808, 0.270413)
+amount = 63
+randomness = 1.0
+trail_lifetime = 0.06
+process_material = SubResource("ParticleProcessMaterial_tg1i3")
+draw_pass_1 = SubResource("SphereMesh_vkpyu")
+
+[node name="PotionHealing" parent="." instance=ExtResource("5_5l373")]
+transform = Transform3D(0.744817, -0.0156726, -0.00522139, 0.00232069, 0.332409, -0.666726, 0.0163557, 0.666546, 0.332376, -0.004, 0.05, 0.023)
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://cjvoltp5g80ix"]
+
+[ext_resource type="Script" path="res://Scripts/level_mechanics/spawner.gd" id="1_bfy15"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qjtjd"]
+size = Vector3(5, 3, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7sg01"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_nskjg"]
+material = SubResource("StandardMaterial3D_7sg01")
+inner_radius = 0.82
+outer_radius = 0.868
+rings = 9
+ring_segments = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_758he"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_h8xx8"]
+material = SubResource("StandardMaterial3D_758he")
+radius = 0.835
+height = 0.235
+radial_segments = 14
+rings = 1
+
+[node name="spawner" type="Node3D"]
+script = ExtResource("1_bfy15")
+
+[node name="spawn_area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawn_area"]
+shape = SubResource("BoxShape3D_qjtjd")
+
+[node name="outer ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_nskjg")
+
+[node name="inner portal" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("SphereMesh_h8xx8")

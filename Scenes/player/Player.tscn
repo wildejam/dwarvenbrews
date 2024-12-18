@@ -1,0 +1,183 @@
+[gd_scene load_steps=22 format=3 uid="uid://dwefwf3todll1"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rtp1l"]
+[ext_resource type="PackedScene" uid="uid://b6tqaav7lbuv1" path="res://Scenes/player/explosion_potion.tscn" id="2_cpajr"]
+[ext_resource type="PackedScene" uid="uid://bgocx3ggmvsfu" path="res://Scenes/ui/ui.tscn" id="3_25rvy"]
+[ext_resource type="AudioStream" uid="uid://cqxt4prfckrq5" path="res://assets/sfx/beam.wav" id="4_im3l3"]
+[ext_resource type="AudioStream" uid="uid://dwebo7kk2wshn" path="res://assets/sfx/black_hole_sound.wav" id="5_6ou37"]
+[ext_resource type="AudioStream" uid="uid://c0nyhta86h05o" path="res://assets/sfx/footstep 1.wav" id="6_jiw6f"]
+[ext_resource type="AudioStream" uid="uid://d3buf18kssb74" path="res://assets/sfx/footstep 2.wav" id="7_2cfy0"]
+[ext_resource type="AudioStream" uid="uid://tv4omp3v0f7j" path="res://assets/sfx/take_damage.wav" id="9_a18bo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jpnff"]
+depth_draw_mode = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rdv3s"]
+material = SubResource("StandardMaterial3D_jpnff")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tk2v4"]
+albedo_color = Color(1, 0.258824, 0.101961, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ob67j"]
+material = SubResource("StandardMaterial3D_tk2v4")
+outer_radius = 0.53
+rings = 15
+ring_segments = 15
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7ubug"]
+radius = 0.75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_47tt0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ftekw"]
+radius = 0.75
+
+[sub_resource type="Animation" id="Animation_c3jd5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cannon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.392814, 0.559642)]
+}
+
+[sub_resource type="Animation" id="Animation_y7pyk"]
+resource_name = "shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cannon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.084, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.5708, 0, 0), Vector3(1.41721, 0, 0), Vector3(1.5708, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cannon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0817, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.406, 0.598), Vector3(0, -0.351, 0.438), Vector3(0, -0.406, 0.598)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_smlyh"]
+_data = {
+"RESET": SubResource("Animation_c3jd5"),
+"shoot": SubResource("Animation_y7pyk")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_16xhf"]
+lifetime_randomness = 0.65
+emission_shape = 1
+emission_sphere_radius = 0.35
+spread = 51.115
+gravity = Vector3(0, 0.36, 0)
+scale_max = 2.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vp800"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.317647)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f8eq5"]
+material = SubResource("StandardMaterial3D_vp800")
+radius = 0.001
+height = 0.012
+radial_segments = 4
+rings = 1
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18062, 0)
+script = ExtResource("1_rtp1l")
+
+[node name="cannon" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.305, 0, 0, 0, -1.3332e-08, -0.305, 0, 0.305, -1.3332e-08, 0, -0.392814, 0.559642)
+mesh = SubResource("CylinderMesh_rdv3s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cannon"]
+transform = Transform3D(1, 0, 0, 0, 1, -3.55271e-15, 0, 3.55271e-15, 1, 0, 0.541381, 0)
+mesh = SubResource("TorusMesh_ob67j")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="cannon"]
+transform = Transform3D(1, 0, 0, 0, 1, -3.55271e-15, 0, 3.55271e-15, 1, 0, 0.151174, 0)
+mesh = SubResource("TorusMesh_ob67j")
+
+[node name="player collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+shape = SubResource("CapsuleShape3D_7ubug")
+
+[node name="Player mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+mesh = SubResource("CapsuleMesh_47tt0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="hurtbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.440361, -0.484158)
+collision_mask = 6
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_ftekw")
+
+[node name="explosion_potion" parent="." instance=ExtResource("2_cpajr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.351224, 0.966557)
+
+[node name="ui" parent="." instance=ExtResource("3_25rvy")]
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="sfx" type="Node" parent="."]
+
+[node name="beam" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("4_im3l3")
+
+[node name="black_hole_sound" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("5_6ou37")
+
+[node name="footstep 1" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("6_jiw6f")
+volume_db = -12.0
+
+[node name="footstep 2" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("7_2cfy0")
+volume_db = -12.0
+
+[node name="take_damage" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("9_a18bo")
+volume_db = 10.0
+
+[node name="animation_player" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_smlyh")
+}
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999974, 0.00715579, 0, -0.00715579, 0.999974, 0, -0.343482, 0.945212)
+visible = false
+amount = 100
+lifetime = 2.29
+explosiveness = 0.95
+randomness = 0.7
+process_material = SubResource("ParticleProcessMaterial_16xhf")
+draw_pass_1 = SubResource("CapsuleMesh_f8eq5")
+
+[connection signal="ammo_changed" from="." to="ui" method="_on_player_ammo_changed"]
+[connection signal="hp_changed" from="." to="." method="_on_hp_changed"]
+[connection signal="weapon_changed" from="." to="ui" method="_on_player_weapon_changed"]
+[connection signal="was_fired" from="explosion_potion" to="." method="_on_explosion_potion_was_fired"]

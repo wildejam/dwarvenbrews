@@ -1,0 +1,127 @@
+[gd_scene load_steps=18 format=3 uid="uid://d3qp7s6dy32ui"]
+
+[ext_resource type="Script" path="res://Scripts/blackhole_potion.gd" id="1_jxc26"]
+[ext_resource type="AudioStream" uid="uid://dby3ad4nw35lq" path="res://assets/sfx/potion_gun_fire.wav" id="2_8fakg"]
+[ext_resource type="AudioStream" uid="uid://16mgtq65yo1k" path="res://assets/sfx/glass_shatter.wav" id="3_qyaqc"]
+[ext_resource type="AudioStream" uid="uid://dwebo7kk2wshn" path="res://assets/sfx/black_hole_sound.wav" id="4_k18rh"]
+[ext_resource type="PackedScene" uid="uid://ca0mguew1yopw" path="res://Scenes/player/model_imports/PotionBlackHole.glb" id="5_5g8we"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcnbe"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_buc32"]
+material = SubResource("StandardMaterial3D_jcnbe")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3afw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xp73s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3w77"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission_energy_multiplier = 28.9
+
+[sub_resource type="SphereMesh" id="SphereMesh_m3ghe"]
+material = SubResource("StandardMaterial3D_r3w77")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7b15c"]
+lifetime_randomness = 0.9
+emission_shape_scale = Vector3(0.2, 0, 0.2)
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 112.457
+gravity = Vector3(0, 0.52, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jschf"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_085us"]
+material = SubResource("StandardMaterial3D_jschf")
+radius = 0.016
+height = 0.031
+radial_segments = 4
+rings = 2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hsteh"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 71.75
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -200.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3ffa"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x3q4v"]
+material = SubResource("StandardMaterial3D_g3ffa")
+radius = 0.011
+height = 1.71
+radial_segments = 4
+rings = 1
+
+[node name="blackhole_potion" type="RigidBody3D"]
+gravity_scale = 5.004
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_jxc26")
+
+[node name="blackhole_potion_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_buc32")
+skeleton = NodePath("")
+
+[node name="blackhole_potion_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("SphereShape3D_r3afw")
+
+[node name="blackhole_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="blackhole_potion_aoe_collider" type="CollisionShape3D" parent="blackhole_potion_aoe"]
+shape = SubResource("SphereShape3D_xp73s")
+
+[node name="blackhole_potion_aoe_visual" type="MeshInstance3D" parent="blackhole_potion_aoe"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("SphereMesh_m3ghe")
+
+[node name="potion_gun_fire" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_8fakg")
+volume_db = -15.0
+
+[node name="glass_shatter" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_qyaqc")
+volume_db = -10.0
+max_db = -10.0
+
+[node name="black_hole_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_k18rh")
+volume_db = -5.0
+unit_size = 59.88
+max_db = 0.0
+
+[node name="potion_particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15754, 0.272985)
+amount = 63
+randomness = 1.0
+trail_lifetime = 0.06
+process_material = SubResource("ParticleProcessMaterial_7b15c")
+draw_pass_1 = SubResource("SphereMesh_085us")
+
+[node name="black_hole" type="GPUParticles3D" parent="."]
+visible = false
+amount = 978
+speed_scale = 25.41
+explosiveness = 0.73
+randomness = 0.57
+process_material = SubResource("ParticleProcessMaterial_hsteh")
+draw_pass_1 = SubResource("CapsuleMesh_x3q4v")
+
+[node name="PotionBlackHole" parent="." instance=ExtResource("5_5g8we")]
+transform = Transform3D(0.744817, -0.0156726, -0.00522139, 0.00232069, 0.332409, -0.666726, 0.0163557, 0.666546, 0.332376, -0.004, 0.05, 0.023)
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

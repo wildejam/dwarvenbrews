@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3dcturnmcytx"]
+
+[ext_resource type="PackedScene" uid="uid://bf6vbc2rx1b8k" path="res://Scenes/maps/map1.tscn" id="1_8qsfi"]
+[ext_resource type="PackedScene" uid="uid://dwefwf3todll1" path="res://Scenes/player/Player.tscn" id="2_lshaq"]
+[ext_resource type="AudioStream" uid="uid://c2fj0mdhitjul" path="res://assets/music/dwarven brews level.wav" id="4_7se20"]
+[ext_resource type="PackedScene" uid="uid://cjvoltp5g80ix" path="res://Scenes/level_mechanics/spawner.tscn" id="7_ojm15"]
+
+[node name="level1" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_lshaq")]
+transform = Transform3D(-0.965627, 0, -0.259932, 0, 1, 0, 0.259932, 0, -0.965627, 0, 1.85156, 45.075)
+max_hp = 100
+speed = 15
+fall_acceleration = 75
+points = 0
+
+[node name="map" parent="." instance=ExtResource("1_8qsfi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.944)
+
+[node name="spawner" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5149, 2.16536, 56.5213)
+
+[node name="spawner2" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1049, 2.16536, 62.2637)
+
+[node name="spawner3" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.485198, 2.16536, 24.1632)
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7se20")
+autoplay = true

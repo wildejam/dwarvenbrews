@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwefwf3todll1"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_rtp1l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xl0yb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3sats"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rdv3s"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_rtp1l")
+
+[node name="player collision" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xl0yb")
+
+[node name="Player mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_3sats")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.470298, 0.502919)
+
+[node name="cannon" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.305, 0, 0, 0, -1.3332e-08, 0.305, 0, -0.305, -1.3332e-08, 0, 0.0647528, 1.10051)
+mesh = SubResource("CylinderMesh_rdv3s")

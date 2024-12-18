@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://dkibakpp16oc1"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier.gd" id="1_ltj41"]
+[ext_resource type="Material" uid="uid://b1cnylgo04eyp" path="res://assets/textures/goblin_footsoldier.tres" id="2_xdmnh"]
+[ext_resource type="Script" path="res://Scripts/State/State Machine.gd" id="3_naw0y"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_idle.gd" id="4_5uvad"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7knao"]
+material = ExtResource("2_xdmnh")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y1uqr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0gc1m"]
+lightmap_size_hint = Vector2i(14, 21)
+material = ExtResource("2_xdmnh")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gd7oa"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pud7t"]
+
+[node name="goblin_footsoldier" type="CharacterBody3D"]
+script = ExtResource("1_ltj41")
+
+[node name="body_mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_7knao")
+
+[node name="body_collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_y1uqr")
+
+[node name="sword_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.08, 0, 8.74228e-08, 0, 0.08, 0, -6.99382e-09, 0, -1, 0, 0, -0.978009)
+mesh = SubResource("BoxMesh_0gc1m")
+skeleton = NodePath("../body_mesh")
+
+[node name="sword_hitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.91888)
+collision_layer = 2
+collision_mask = 5
+
+[node name="sword_collision" type="CollisionShape3D" parent="sword_hitbox"]
+transform = Transform3D(0.81, 0, 0, 0, 0.81, 0, 0, 0, 0.81, 0, 0, 0.925805)
+shape = SubResource("BoxShape3D_gd7oa")
+
+[node name="hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_pud7t")
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_naw0y")
+initial_state = NodePath("goblin_footsoldier_idle")
+
+[node name="goblin_footsoldier_idle" type="Node" parent="State Machine"]
+script = ExtResource("4_5uvad")

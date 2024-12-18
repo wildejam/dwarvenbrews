@@ -1,0 +1,303 @@
+[gd_scene load_steps=38 format=3 uid="uid://b3dcturnmcytx"]
+
+[ext_resource type="Script" path="res://Scripts/level1.gd" id="1_gvghu"]
+[ext_resource type="PackedScene" uid="uid://dwefwf3todll1" path="res://Scenes/player/Player.tscn" id="2_lshaq"]
+[ext_resource type="AudioStream" uid="uid://c2fj0mdhitjul" path="res://assets/music/dwarven brews level.wav" id="4_7se20"]
+[ext_resource type="Script" path="res://Scripts/level_mechanics/killbox.gd" id="5_biejk"]
+[ext_resource type="PackedScene" uid="uid://ba4ogkwpjnxsp" path="res://Scenes/maps/map_1_final.tscn" id="5_mnsx1"]
+[ext_resource type="Texture2D" uid="uid://dr5nk2tsjay2" path="res://Scenes/levels/DwarvenBrews.Skybox.png" id="6_lv71r"]
+[ext_resource type="PackedScene" uid="uid://cjvoltp5g80ix" path="res://Scenes/level_mechanics/spawner.tscn" id="7_ojm15"]
+[ext_resource type="PackedScene" uid="uid://bgs12id0wkm4u" path="res://assets/models/inamow.glb" id="8_rpi6c"]
+[ext_resource type="PackedScene" uid="uid://ca0mguew1yopw" path="res://Scenes/player/model_imports/PotionBlackHole.glb" id="9_p7464"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y32k6"]
+size = Vector3(227.402, 85.1245, 232.755)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_xshvt"]
+panorama = ExtResource("6_lv71r")
+
+[sub_resource type="Sky" id="Sky_birn8"]
+sky_material = SubResource("PanoramaSkyMaterial_xshvt")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Environment_e4fav"]
+background_mode = 2
+background_color = Color(0, 0.100575, 0.0310512, 1)
+sky = SubResource("Sky_birn8")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.35
+reflected_light_source = 1
+fog_light_color = Color(0.180465, 0.199519, 0.229475, 1)
+fog_light_energy = 2.73
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pv0bj"]
+size = Vector3(3, 0.5, 101.407)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yxwsu"]
+transparency = 1
+albedo_color = Color(0.878431, 0, 0.878431, 0.839216)
+emission_enabled = true
+emission = Color(1, 0.337255, 1, 1)
+emission_energy_multiplier = 3.08
+
+[sub_resource type="BoxMesh" id="BoxMesh_m1f1n"]
+material = SubResource("StandardMaterial3D_yxwsu")
+size = Vector3(3, 0.5, 101.407)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6gyvq"]
+emission_shape_scale = Vector3(1, 1, 24.6)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0.325, 1, -4.905)
+flatness = 0.528
+gravity = Vector3(0, 11.69, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nr46q"]
+albedo_color = Color(1, 0.0527989, 0.987347, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8sxcr"]
+material = SubResource("StandardMaterial3D_nr46q")
+radius = 1.69
+height = 1.66
+radial_segments = 4
+rings = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lctjx"]
+emission_shape = 1
+emission_sphere_radius = 0.36
+direction = Vector3(0, 0, 0)
+spread = 137.488
+initial_velocity_min = 0.4
+initial_velocity_max = 0.4
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -1.1
+radial_accel_max = -1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihc1g"]
+transparency = 1
+albedo_color = Color(1, 0.0627451, 0, 0.227451)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xlb20"]
+material = SubResource("StandardMaterial3D_ihc1g")
+radius = 0.551
+height = 1.135
+radial_segments = 79
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5wkmh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwjuh"]
+transparency = 1
+albedo_color = Color(0.45098, 0.443137, 0.419608, 0.203922)
+
+[sub_resource type="SphereMesh" id="SphereMesh_uxuet"]
+material = SubResource("StandardMaterial3D_mwjuh")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iqglg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qj14s"]
+transparency = 1
+albedo_color = Color(0.831373, 0.913725, 0, 0.294118)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8w7ki"]
+material = SubResource("StandardMaterial3D_qj14s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lg0lc"]
+emission_shape = 1
+emission_sphere_radius = 0.36
+direction = Vector3(0, 0, 0)
+spread = 137.488
+initial_velocity_min = 0.4
+initial_velocity_max = 0.4
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -1.1
+radial_accel_max = -1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3hsti"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.486275)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ye24w"]
+material = SubResource("StandardMaterial3D_3hsti")
+radial_segments = 6
+rings = 5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6xxpq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g26i0"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission_energy_multiplier = 28.9
+
+[sub_resource type="SphereMesh" id="SphereMesh_fjf3f"]
+material = SubResource("StandardMaterial3D_g26i0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v1fpm"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 71.75
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -200.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oay3v"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1xovv"]
+material = SubResource("StandardMaterial3D_oay3v")
+radius = 0.011
+height = 1.71
+radial_segments = 4
+rings = 1
+
+[node name="level1" type="Node3D"]
+script = ExtResource("1_gvghu")
+
+[node name="Player" parent="." instance=ExtResource("2_lshaq")]
+transform = Transform3D(-0.999344, 0, 0.0362072, 0, 1, 0, -0.0362072, 0, -0.999344, 0, 1.85156, 54.1832)
+
+[node name="spawner" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.3745, 5.89707, 75.7785)
+
+[node name="spawner2" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.2992, 1.85541, 77.1063)
+
+[node name="spawner3" parent="." instance=ExtResource("7_ojm15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.485198, 2.16536, -10.0947)
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("4_7se20")
+autoplay = true
+
+[node name="killbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -284.372, 0)
+script = ExtResource("5_biejk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="killbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2032, -72.8507, 42.9953)
+shape = SubResource("BoxShape3D_y32k6")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e4fav")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27971, 7.0826, 44.2524)
+light_color = Color(1, 1, 0.666667, 1)
+light_energy = 9.359
+light_bake_mode = 0
+omni_range = 2162.8
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(0.999947, 0, -0.0102973, 0, 1, 0, 0.0102973, 0, 0.999947, -20.5792, 6.65668, 75.2697)
+light_color = Color(1, 1, 0.666667, 1)
+light_energy = 9.359
+light_bake_mode = 0
+omni_range = 2162.8
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.1198, 7.39408, 70.1608)
+light_color = Color(1, 1, 0.666667, 1)
+light_energy = 9.359
+light_bake_mode = 0
+omni_range = 2162.8
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.1958, 6.60309, 56.7595)
+light_color = Color(1, 1, 0.666667, 1)
+light_energy = 9.359
+light_bake_mode = 0
+omni_range = 2162.8
+
+[node name="map1_final2" parent="." instance=ExtResource("5_mnsx1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481856, 0, -20.9161)
+
+[node name="inamow" parent="." instance=ExtResource("8_rpi6c")]
+transform = Transform3D(0.163109, 0, 0.530491, 0, 0.555, 0, -0.530491, 0, 0.163109, -1.23156, 2.62605, 78.8117)
+
+[node name="beam_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 170.569, -45.5776)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="beam_potion_aoe_collider" type="CollisionShape3D" parent="beam_potion_aoe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50.698)
+shape = SubResource("BoxShape3D_pv0bj")
+
+[node name="beam_potion_aoe_visual" type="MeshInstance3D" parent="beam_potion_aoe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 284.864, 50.698)
+mesh = SubResource("BoxMesh_m1f1n")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="beam_potion_aoe/beam_potion_aoe_visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0746429, 0, -27.4601)
+amount = 18
+lifetime = 0.01
+explosiveness = 0.83
+visibility_aabb = AABB(-1.55297, -0.541022, -1.58106, 3.10595, 1.08204, 3.16252)
+process_material = SubResource("ParticleProcessMaterial_6gyvq")
+draw_pass_1 = SubResource("SphereMesh_8sxcr")
+
+[node name="explosion_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 10.8019, 56.2858)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="explosion_potion_aoe"]
+amount = 50
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_lctjx")
+draw_pass_1 = SubResource("SphereMesh_xlb20")
+
+[node name="explosion_potion_aoe_collider" type="CollisionShape3D" parent="explosion_potion_aoe"]
+shape = SubResource("SphereShape3D_5wkmh")
+
+[node name="explosion_potion_aoe_visual" type="MeshInstance3D" parent="explosion_potion_aoe"]
+visible = false
+mesh = SubResource("SphereMesh_uxuet")
+
+[node name="healing_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 10.9492, 49.8857)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="healing_potion_aoe_collider" type="CollisionShape3D" parent="healing_potion_aoe"]
+shape = SubResource("SphereShape3D_iqglg")
+
+[node name="healing_potion_aoe_visual" type="MeshInstance3D" parent="healing_potion_aoe"]
+visible = false
+mesh = SubResource("SphereMesh_8w7ki")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="healing_potion_aoe"]
+amount = 50
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_lg0lc")
+draw_pass_1 = SubResource("SphereMesh_ye24w")
+
+[node name="blackhole_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 44.8574, 44.9611)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="blackhole_potion_aoe_collider" type="CollisionShape3D" parent="blackhole_potion_aoe"]
+shape = SubResource("SphereShape3D_6xxpq")
+
+[node name="blackhole_potion_aoe_visual" type="MeshInstance3D" parent="blackhole_potion_aoe"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("SphereMesh_fjf3f")
+
+[node name="black_hole" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 81.318, 44.9611)
+amount = 978
+speed_scale = 25.41
+explosiveness = 0.73
+randomness = 0.57
+process_material = SubResource("ParticleProcessMaterial_v1fpm")
+draw_pass_1 = SubResource("CapsuleMesh_1xovv")
+
+[node name="PotionBlackHole" parent="." instance=ExtResource("9_p7464")]
+transform = Transform3D(0.744817, -0.0156726, -0.00522139, 0.00232069, 0.332409, -0.666726, 0.0163557, 0.666546, 0.332376, -0.004, 81.368, 44.9841)
+
+[connection signal="body_entered" from="killbox" to="killbox" method="_on_body_entered"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3dcturnmcytx"]
+
+[ext_resource type="Script" path="res://Scripts/testworld.gd" id="1_4ialy"]
+[ext_resource type="PackedScene" uid="uid://bf6vbc2rx1b8k" path="res://Scenes/maps/map1.tscn" id="1_8qsfi"]
+[ext_resource type="PackedScene" uid="uid://bgocx3ggmvsfu" path="res://Scenes/ui/ui.tscn" id="1_m16dt"]
+[ext_resource type="PackedScene" uid="uid://dwefwf3todll1" path="res://Scenes/player/Player.tscn" id="2_lshaq"]
+[ext_resource type="PackedScene" uid="uid://dkibakpp16oc1" path="res://Scenes/enemies/goblin_footsoldier.tscn" id="5_0tx7b"]
+
+[node name="level1" type="Node3D"]
+script = ExtResource("1_4ialy")
+
+[node name="ui" parent="." instance=ExtResource("1_m16dt")]
+
+[node name="Player" parent="." instance=ExtResource("2_lshaq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85156, -22.0963)
+
+[node name="map" parent="." instance=ExtResource("1_8qsfi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.944)
+
+[node name="goblin_footsoldier" parent="." instance=ExtResource("5_0tx7b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.70684, 1.20915, 23.9045)

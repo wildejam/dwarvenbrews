@@ -1,0 +1,731 @@
+[gd_scene load_steps=32 format=3 uid="uid://bgocx3ggmvsfu"]
+
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="1_688pi"]
+[ext_resource type="Texture2D" uid="uid://nrpdmaca3nmo" path="res://assets/images/Dwarven_Brews_Logo.png" id="2_5lpeg"]
+[ext_resource type="Theme" uid="uid://dt52e48bhof7i" path="res://assets/font_theme.tres" id="2_lu2dy"]
+[ext_resource type="Texture2D" uid="uid://mhjh4iypkmys" path="res://assets/images/buttons/Button.Return.Inactive.png" id="3_2raqv"]
+[ext_resource type="AudioStream" uid="uid://bq6nt7mjwalk6" path="res://assets/sfx/click.wav" id="3_6fn2r"]
+[ext_resource type="Texture2D" uid="uid://fumon7qcbk71" path="res://assets/potion_icons/Potion.Explosion.HUDIcon.png" id="3_fu5pi"]
+[ext_resource type="Texture2D" uid="uid://cg02btr3or88f" path="res://assets/images/HUD/HUD.LeftContainer.png" id="3_xovkt"]
+[ext_resource type="Texture2D" uid="uid://d0p3ko6wpjb8b" path="res://assets/images/buttons/Button.Return.Active.png" id="4_a1fmu"]
+[ext_resource type="Texture2D" uid="uid://obs0tf38chl6" path="res://assets/images/HUD/HUD.RightContainer.png" id="4_idngm"]
+[ext_resource type="Texture2D" uid="uid://mdiswlxiesla" path="res://assets/images/buttons/Button.MainMenu.Inactive.png" id="5_bsw1p"]
+[ext_resource type="Texture2D" uid="uid://ddb8wtbcig7vv" path="res://assets/images/buttons/HUD.ModularEmptyButton.png" id="5_ircxw"]
+[ext_resource type="Texture2D" uid="uid://cfrhfmydwe54g" path="res://assets/images/buttons/Button.MainMenu.Active.png" id="6_1ov1j"]
+[ext_resource type="Texture2D" uid="uid://b5f3e3sbv5haw" path="res://assets/images/buttons/HUD.ModularBox5.png" id="6_1362p"]
+[ext_resource type="Texture2D" uid="uid://dwp0gcwsuc05i" path="res://assets/images/HUD/HUD.ModularBox3.png" id="7_2ul4e"]
+[ext_resource type="Texture2D" uid="uid://cprpwo58pc5t6" path="res://assets/images/buttons/Button.PutMeBackInThere.Inactive.png" id="7_urojq"]
+[ext_resource type="Texture2D" uid="uid://cbommlg7dpkbo" path="res://assets/images/buttons/Button.PutMeBackInThere.Active.png" id="8_e15uv"]
+[ext_resource type="Texture2D" uid="uid://ymd806sxqcur" path="res://assets/images/HUD/HUD.AlfieDown.png" id="13_clnjy"]
+[ext_resource type="Texture2D" uid="uid://c71v3xbwh61gn" path="res://assets/images/HUD/HUD.ModularBox4.png" id="15_uo5u5"]
+[ext_resource type="Texture2D" uid="uid://bjk4b1obhj0c1" path="res://assets/potion_icons/Potion.Healing.BuyMenu.png" id="16_4o511"]
+[ext_resource type="Texture2D" uid="uid://dx7twpg38q1ds" path="res://assets/potion_icons/Potion.Beam.BuyMenu.png" id="17_a3nt8"]
+[ext_resource type="Texture2D" uid="uid://docv8dquex7kt" path="res://assets/potion_icons/Potion.Healing.BuyMenuSelected.png" id="17_mu47k"]
+[ext_resource type="Texture2D" uid="uid://gigeo0t02ytk" path="res://assets/potion_icons/Potion.AllConsumingVoid.BuyMenu.png" id="18_1xwxa"]
+[ext_resource type="Texture2D" uid="uid://b2qonkhe5s1tv" path="res://assets/potion_icons/Potion.Beam.BuyMenuSelected.png" id="19_l4fj4"]
+[ext_resource type="Texture2D" uid="uid://dvhojxi7epfwt" path="res://assets/images/HUD/BuyMenu.Crafted.png" id="20_2xjwt"]
+[ext_resource type="Texture2D" uid="uid://ds462v5te5hul" path="res://assets/images/HUD/BuyMenu.CraftNewPotionsOnTheFly.png" id="21_a2nby"]
+[ext_resource type="Texture2D" uid="uid://c2ouetf754g7g" path="res://assets/potion_icons/Potion.AllConsumingVoid.BuyMenuSelected.png" id="21_ijro3"]
+[ext_resource type="Texture2D" uid="uid://b3utw8vpkxniu" path="res://assets/images/HUD/BuyMenu.NotEnoughPoints.png" id="22_ts4dd"]
+
+[sub_resource type="Theme" id="Theme_a82nl"]
+
+[sub_resource type="Animation" id="Animation_mwu20"]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0154551, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.65098), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dood8"]
+resource_name = "heal_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../healed-color:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0188457, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.658824), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1cpe"]
+_data = {
+"fade": SubResource("Animation_mwu20"),
+"heal_fade": SubResource("Animation_dood8")
+}
+
+[node name="ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+theme = SubResource("Theme_a82nl")
+script = ExtResource("1_688pi")
+
+[node name="damaged-color" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0, 0, 1)
+
+[node name="healed-color" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 1, 0, 1)
+
+[node name="hud" type="Control" parent="."]
+process_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_lu2dy")
+
+[node name="left_container" type="TextureRect" parent="hud"]
+modulate = Color(1, 1, 1, 0.796078)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -136.0
+offset_right = 631.0
+offset_bottom = 64.0
+grow_vertical = 0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_xovkt")
+
+[node name="right_container" type="TextureRect" parent="hud"]
+modulate = Color(1, 1, 1, 0.823529)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -433.0
+offset_top = -136.0
+offset_right = 185.0
+offset_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_idngm")
+
+[node name="timer_container" type="TextureRect" parent="hud"]
+modulate = Color(1, 1, 1, 0.898039)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -115.0
+offset_right = 942.0
+offset_bottom = 305.0
+grow_horizontal = 2
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("5_ircxw")
+
+[node name="left_modularbox" type="TextureRect" parent="hud"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -120.0
+offset_right = 1061.0
+offset_bottom = 185.0
+grow_vertical = 0
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("6_1362p")
+
+[node name="right_modularbox_1" type="TextureRect" parent="hud"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -368.0
+offset_top = -60.0
+offset_right = 689.0
+offset_bottom = 245.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.19, 0.19)
+texture = ExtResource("6_1362p")
+
+[node name="right_modularbox_2" type="TextureRect" parent="hud"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -388.0
+offset_top = -128.0
+offset_right = 669.0
+offset_bottom = 177.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("5_ircxw")
+
+[node name="hp label" type="Label" parent="hud"]
+modulate = Color(0.305882, 0.188235, 0.0823529, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = -96.0
+offset_right = 181.0
+offset_bottom = -68.0
+grow_vertical = 0
+scale = Vector2(1.29, 1.29)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "HP: 100"
+horizontal_alignment = 1
+
+[node name="points count" type="Label" parent="hud"]
+modulate = Color(0.305882, 0.188235, 0.0823529, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 71.0
+offset_top = -61.9999
+offset_right = 201.0
+offset_bottom = -33.9999
+grow_vertical = 0
+scale = Vector2(1.215, 1.215)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "POINTS: 0"
+horizontal_alignment = 1
+
+[node name="ammo" type="Label" parent="hud"]
+modulate = Color(0.305882, 0.188235, 0.0823529, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -339.0
+offset_top = -37.0
+offset_right = -171.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.855, 0.855)
+text = "AMMO: infinity"
+horizontal_alignment = 1
+
+[node name="current_weapon_label" type="Label" parent="hud"]
+modulate = Color(0.305882, 0.188235, 0.0823529, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -366.0
+offset_top = -111.0
+offset_right = -111.0
+offset_bottom = -52.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.755, 0.755)
+text = "POTION
+EXPLOSION"
+horizontal_alignment = 1
+
+[node name="timer" type="Label" parent="hud"]
+modulate = Color(0.305899, 0.189515, 0.0842259, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.0
+offset_top = 22.0
+offset_right = 30.0
+offset_bottom = 50.0
+grow_horizontal = 2
+text = "Time Lived: 0"
+
+[node name="potion_icon" type="TextureRect" parent="hud"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -155.0
+offset_top = -126.0
+offset_right = 1045.0
+offset_bottom = 1074.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_fu5pi")
+
+[node name="pause_menu" type="Control" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -322.0
+offset_right = 359.0
+offset_bottom = 324.0
+grow_vertical = 2
+
+[node name="modular_box" type="TextureRect" parent="pause_menu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -327.0
+offset_right = 705.0
+offset_bottom = 873.0
+grow_vertical = 2
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("7_2ul4e")
+
+[node name="DwarvenBrewsLogo" type="Sprite2D" parent="pause_menu"]
+position = Vector2(191, 165)
+rotation = 0.326377
+scale = Vector2(0.205, 0.205)
+texture = ExtResource("2_5lpeg")
+
+[node name="resume_button" type="TextureButton" parent="pause_menu"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 361.0
+offset_right = 1107.0
+offset_bottom = 666.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_2raqv")
+texture_pressed = ExtResource("4_a1fmu")
+
+[node name="quit_button" type="TextureButton" parent="pause_menu"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 468.0
+offset_right = 1107.0
+offset_bottom = 773.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("5_bsw1p")
+texture_pressed = ExtResource("6_1ov1j")
+
+[node name="game_over_menu" type="Control" parent="."]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -355.0
+offset_top = -269.5
+offset_bottom = 269.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="modular_box" type="TextureRect" parent="game_over_menu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -321.0
+offset_right = 323.0
+offset_bottom = 879.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("7_2ul4e")
+
+[node name="Hud_alfieDown" type="Sprite2D" parent="game_over_menu"]
+position = Vector2(171, 122.5)
+rotation = 0.244346
+scale = Vector2(0.275, 0.275)
+texture = ExtResource("13_clnjy")
+
+[node name="retry_button" type="TextureButton" parent="game_over_menu"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 257.5
+offset_right = 1101.0
+offset_bottom = 562.5
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("7_urojq")
+texture_pressed = ExtResource("8_e15uv")
+
+[node name="quit_button" type="TextureButton" parent="game_over_menu"]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 369.5
+offset_right = 1130.0
+offset_bottom = 674.5
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("5_bsw1p")
+texture_pressed = ExtResource("6_1ov1j")
+
+[node name="buy_menu" type="Control" parent="."]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -216.5
+offset_right = 480.0
+offset_bottom = 216.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="modular_box" type="TextureRect" parent="buy_menu"]
+modulate = Color(1, 1, 1, 0.956863)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -578.0
+offset_top = -308.0
+offset_right = 622.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.97, 1.535)
+texture = ExtResource("15_uo5u5")
+
+[node name="modular_box_healing" type="TextureRect" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = 68.0
+offset_right = 1042.0
+offset_bottom = 373.0
+grow_vertical = 2
+rotation = -0.0436332
+scale = Vector2(0.31, 0.31)
+texture = ExtResource("6_1362p")
+
+[node name="modular_box_beam" type="TextureRect" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = 66.0
+offset_right = 906.0
+offset_bottom = 371.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.31, 0.31)
+texture = ExtResource("6_1362p")
+
+[node name="modular_box_blackhole" type="TextureRect" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -274.477
+offset_top = 55.0
+offset_right = 782.523
+offset_bottom = 360.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = 0.122173
+scale = Vector2(0.31, 0.31)
+texture = ExtResource("6_1362p")
+
+[node name="modular_box_points" type="TextureRect" parent="buy_menu"]
+layout_mode = 1
+offset_left = -74.0
+offset_top = -4.5
+offset_right = 983.0
+offset_bottom = 300.5
+rotation = -0.26529
+scale = Vector2(0.21, 0.21)
+texture = ExtResource("6_1362p")
+
+[node name="return_button" type="TextureButton" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -156.0
+offset_top = -16.5
+offset_right = 901.0
+offset_bottom = 288.5
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("3_2raqv")
+texture_pressed = ExtResource("4_a1fmu")
+
+[node name="heal_pot_button" type="TextureButton" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 72.0
+offset_top = -147.0
+offset_right = 1272.0
+offset_bottom = 1053.0
+grow_vertical = 2
+scale = Vector2(0.14, 0.14)
+texture_normal = ExtResource("17_mu47k")
+texture_pressed = ExtResource("16_4o511")
+texture_hover = ExtResource("16_4o511")
+
+[node name="heal_pot_desc" type="Label" parent="buy_menu/heal_pot_button"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = -536.0
+offset_top = 1621.0
+offset_right = -232.0
+offset_bottom = 1697.0
+rotation = -0.0436332
+scale = Vector2(7, 7)
+text = "Fire to spread soothing healing magic! Affects enemies."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="heal_pot_count" type="Label" parent="buy_menu/heal_pot_button"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 1228.57
+offset_right = 250.0
+offset_bottom = 1263.57
+scale = Vector2(7, 7)
+text = "YOU HAVE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="heal_pot_price" type="Label" parent="buy_menu/heal_pot_button"]
+layout_mode = 0
+offset_left = 64.2856
+offset_top = -235.714
+offset_right = 214.286
+offset_bottom = -198.714
+scale = Vector2(7, 7)
+text = "COST: 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="beam_pot_button" type="TextureButton" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -155.0
+offset_right = 1129.0
+offset_bottom = 1045.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.14, 0.14)
+texture_normal = ExtResource("19_l4fj4")
+texture_pressed = ExtResource("17_a3nt8")
+texture_hover = ExtResource("17_a3nt8")
+
+[node name="beam_pot_desc" type="Label" parent="buy_menu/beam_pot_button"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = -450.0
+offset_top = 1621.0
+offset_right = -147.0
+offset_bottom = 1707.0
+scale = Vector2(7, 7)
+text = "Fire a flashy beam of shadow vaporization!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="beam_pot_count" type="Label" parent="buy_menu/beam_pot_button"]
+layout_mode = 0
+offset_left = 92.8574
+offset_top = 1235.71
+offset_right = 242.857
+offset_bottom = 1269.71
+scale = Vector2(7, 7)
+text = "YOU HAVE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="beam_pot_price" type="Label" parent="buy_menu/beam_pot_button"]
+layout_mode = 0
+offset_left = 28.5713
+offset_top = -221.429
+offset_right = 178.571
+offset_bottom = -184.429
+scale = Vector2(7, 7)
+text = "COST: 150"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="blackhole_pot_button" type="TextureButton" parent="buy_menu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -154.0
+offset_right = 979.0
+offset_bottom = 1046.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.14, 0.14)
+texture_normal = ExtResource("21_ijro3")
+texture_pressed = ExtResource("18_1xwxa")
+texture_hover = ExtResource("18_1xwxa")
+
+[node name="blackhole_pot_desc" type="Label" parent="buy_menu/blackhole_pot_button"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = -310.266
+offset_top = 1514.43
+offset_right = -2.26639
+offset_bottom = 1602.43
+rotation = 0.122173
+scale = Vector2(7, 7)
+text = "All shadows will return from whence they came."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="blackhole_pot_count" type="Label" parent="buy_menu/blackhole_pot_button"]
+layout_mode = 0
+offset_left = 78.5715
+offset_top = 1235.71
+offset_right = 228.572
+offset_bottom = 1270.71
+scale = Vector2(7, 7)
+text = "YOU HAVE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="blackhole_pot_price" type="Label" parent="buy_menu/blackhole_pot_button"]
+layout_mode = 0
+offset_left = 71.4282
+offset_top = -257.143
+offset_right = 221.428
+offset_bottom = -219.143
+scale = Vector2(7, 7)
+text = "COST: 1000"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="notification" type="Label" parent="buy_menu"]
+layout_mode = 0
+offset_left = 361.0
+offset_top = -52.5
+offset_right = 580.0
+offset_bottom = -29.5
+text = "Craft new potions on the fly!"
+
+[node name="BuyMenu_crafted" type="Sprite2D" parent="buy_menu"]
+visible = false
+position = Vector2(478, -39.5)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("20_2xjwt")
+
+[node name="BuyMenu_craftNewPotionsOnTheFly" type="Sprite2D" parent="buy_menu"]
+position = Vector2(482, -39.5)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("21_a2nby")
+
+[node name="BuyMenu_notEnoughPoints" type="Sprite2D" parent="buy_menu"]
+visible = false
+position = Vector2(491, -39.5)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("22_ts4dd")
+
+[node name="current_points" type="Label" parent="buy_menu"]
+modulate = Color(0.305882, 0.188235, 0.0823529, 1)
+layout_mode = 0
+offset_left = -21.0
+offset_top = -0.5
+offset_right = 58.0
+offset_bottom = 23.5
+rotation = -0.354302
+scale = Vector2(1.59, 1.59)
+text = "Points: X"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../damaged-color")
+libraries = {
+"": SubResource("AnimationLibrary_g1cpe")
+}
+
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6fn2r")
+
+[connection signal="pressed" from="pause_menu/resume_button" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="pause_menu/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="game_over_menu/retry_button" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="game_over_menu/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="buy_menu/return_button" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="buy_menu/heal_pot_button" to="." method="_on_heal_pot_button_pressed"]
+[connection signal="pressed" from="buy_menu/beam_pot_button" to="." method="_on_beam_pot_button_pressed"]
+[connection signal="pressed" from="buy_menu/blackhole_pot_button" to="." method="_on_blackhole_pot_button_pressed"]

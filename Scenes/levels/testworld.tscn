@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://e12i40s4hve8"]
+
+[ext_resource type="Script" path="res://Scripts/testworld.gd" id="1_d32nm"]
+[ext_resource type="PackedScene" uid="uid://bgocx3ggmvsfu" path="res://Scenes/ui/ui.tscn" id="2_net14"]
+[ext_resource type="PackedScene" uid="uid://dwefwf3todll1" path="res://Scenes/player/Player.tscn" id="3_250it"]
+[ext_resource type="Texture2D" uid="uid://c0l6cn1i84ifp" path="res://assets/textures/placeholder.png" id="4_bu6kf"]
+[ext_resource type="PackedScene" uid="uid://dkibakpp16oc1" path="res://Scenes/enemies/goblin_footsoldier.tscn" id="5_cmmbf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_imuwi"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_verl4"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5el6o"]
+albedo_color = Color(0.156863, 0.690196, 0.635294, 0.137255)
+albedo_texture = ExtResource("4_bu6kf")
+metallic = 0.35
+metallic_specular = 0.66
+roughness = 0.05
+uv1_scale = Vector3(50, 50, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k7ndx"]
+
+[node name="testworld" type="Node3D"]
+script = ExtResource("1_d32nm")
+
+[node name="ui" parent="." instance=ExtResource("2_net14")]
+
+[node name="Player" parent="." instance=ExtResource("3_250it")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -21.2372)
+
+[node name="map" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="groundcollision" type="CollisionShape3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00341034, 0, 0.035553)
+shape = SubResource("BoxShape3D_imuwi")
+
+[node name="groundmesh" type="MeshInstance3D" parent="map"]
+mesh = SubResource("BoxMesh_verl4")
+surface_material_override/0 = SubResource("StandardMaterial3D_5el6o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 0.233394, 0.972382, 0, -0.972382, 0.233394, 0, 191.791, 0)
+
+[node name="randombox" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1261, 1, -8.13962)
+mesh = SubResource("BoxMesh_k7ndx")
+skeleton = NodePath("../..")
+
+[node name="goblin" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179945, 9.92639)
+
+[node name="goblin3" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7166, 0.35989, 11.4506)
+
+[node name="goblin2" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04913, 0.179945, 9.92639)
+
+[node name="goblin6" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75728, 0.71978, 5.77755)
+
+[node name="goblin7" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.51562, 0.539835, 5.65758)
+
+[node name="goblin5" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9464, 0.35989, 5.20143)
+
+[node name="goblin4" parent="." instance=ExtResource("5_cmmbf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.16071, 4.11129, 9.92639)

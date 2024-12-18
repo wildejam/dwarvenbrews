@@ -1,0 +1,224 @@
+[gd_scene load_steps=19 format=3 uid="uid://cpob71vircfce"]
+
+[ext_resource type="PackedScene" uid="uid://b1ec2uqhon71w" path="res://Scenes/goblin_imports/GobbinSwordInactive.glb" id="1_3w1r2"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_ylmnl"]
+[ext_resource type="PackedScene" uid="uid://d3qp7s6dy32ui" path="res://Scenes/player/blackhole_potion.tscn" id="2_sn1dw"]
+[ext_resource type="Theme" uid="uid://dt52e48bhof7i" path="res://assets/font_theme.tres" id="3_5uy58"]
+[ext_resource type="AudioStream" uid="uid://cjp0rvhyym1jn" path="res://assets/music/dwarven brews.wav" id="3_gsxyq"]
+[ext_resource type="AudioStream" uid="uid://bq6nt7mjwalk6" path="res://assets/sfx/click.wav" id="4_gn04t"]
+[ext_resource type="Texture2D" uid="uid://nrpdmaca3nmo" path="res://assets/images/Dwarven_Brews_Logo.png" id="4_t3hls"]
+[ext_resource type="Texture2D" uid="uid://fhee2nr0js2e" path="res://assets/images/buttons/Button.Play.Inactive.png" id="6_l3p14"]
+[ext_resource type="Texture2D" uid="uid://krekcxp260yr" path="res://assets/images/buttons/Button.Play.Active.png" id="7_73whr"]
+[ext_resource type="Texture2D" uid="uid://d0ab2riomknxp" path="res://assets/images/buttons/Button.HowToPlay.Inactive.png" id="8_u7c34"]
+[ext_resource type="Texture2D" uid="uid://c1ttrdae0qplf" path="res://assets/images/buttons/Button.HowToPlay.Active.png" id="9_31k7j"]
+[ext_resource type="Texture2D" uid="uid://c5y1l7x67fmey" path="res://assets/images/buttons/Button.QuitToDesktop.Inactive.png" id="10_wfkiv"]
+[ext_resource type="Texture2D" uid="uid://baocgofpd0qyx" path="res://assets/images/buttons/Button.QuitToDesktop.Active.png" id="11_x68ke"]
+[ext_resource type="Texture2D" uid="uid://mhjh4iypkmys" path="res://assets/images/buttons/Button.Return.Inactive.png" id="12_cuycr"]
+[ext_resource type="Texture2D" uid="uid://d0p3ko6wpjb8b" path="res://assets/images/buttons/Button.Return.Active.png" id="13_jsal3"]
+
+[sub_resource type="Animation" id="Animation_atl5h"]
+resource_name = "float"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.10989, 0.289961, 0), Vector3(-0.11, 0.23, 0), Vector3(-0.11, 0.245, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0tabi"]
+_data = {
+"float": SubResource("Animation_atl5h")
+}
+
+[sub_resource type="Environment" id="Environment_nefti"]
+background_mode = 1
+
+[node name="main_menu" type="Node3D"]
+
+[node name="GobbinSwordInactive" parent="." instance=ExtResource("1_3w1r2")]
+transform = Transform3D(-0.741267, 0.0346476, -0.0659418, 0.0466885, 0.72999, -0.141279, 0.0580428, -0.144703, -0.728503, -0.11, 0.23, 0)
+
+[node name="blackhole_potion" parent="GobbinSwordInactive" instance=ExtResource("2_sn1dw")]
+transform = Transform3D(-1.34156, 0.0407792, -0.0165216, 0.00232465, 0.569015, 1.21571, 0.0439376, 1.21502, -0.56878, 0.750828, -0.0693671, 0.745724)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GobbinSwordInactive"]
+libraries = {
+"": SubResource("AnimationLibrary_0tabi")
+}
+autoplay = "float"
+
+[node name="main_menu_ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+theme = ExtResource("3_5uy58")
+script = ExtResource("1_ylmnl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="main_menu_ui"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -404.0
+offset_top = -300.0
+offset_right = -126.0
+offset_bottom = -53.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="DwarvenBrewsLogo" type="Sprite2D" parent="main_menu_ui/HBoxContainer"]
+position = Vector2(151, 117)
+rotation = 0.340339
+scale = Vector2(0.21, 0.21)
+texture = ExtResource("4_t3hls")
+
+[node name="click_sound" type="AudioStreamPlayer" parent="main_menu_ui"]
+stream = ExtResource("4_gn04t")
+pitch_scale = 1.3
+
+[node name="play_button" type="TextureButton" parent="main_menu_ui"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -430.0
+offset_top = -26.0
+offset_right = 627.0
+offset_bottom = 279.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_l3p14")
+texture_pressed = ExtResource("7_73whr")
+
+[node name="tutorial_button" type="TextureButton" parent="main_menu_ui"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -425.0
+offset_top = 87.0
+offset_right = 632.0
+offset_bottom = 392.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("8_u7c34")
+texture_pressed = ExtResource("9_31k7j")
+
+[node name="quit_button" type="TextureButton" parent="main_menu_ui"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -425.0
+offset_top = 191.0
+offset_right = 632.0
+offset_bottom = 496.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("10_wfkiv")
+texture_pressed = ExtResource("11_x68ke")
+
+[node name="tutorial_menu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme = ExtResource("3_5uy58")
+
+[node name="ColorRect" type="ColorRect" parent="tutorial_menu"]
+layout_mode = 0
+offset_top = -304.0
+offset_right = 626.0
+offset_bottom = 344.0
+color = Color(0.137255, 0.12549, 0.117647, 0.937255)
+
+[node name="Header" type="Label" parent="tutorial_menu"]
+layout_mode = 0
+offset_left = 102.0
+offset_top = -143.0
+offset_right = 543.0
+offset_bottom = -53.0
+text = "The SHADOW GOBLINS approach! Use your trusty ALCHEMY GUN to fend them off!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="text" type="Label" parent="tutorial_menu"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -7.0
+offset_right = 484.0
+offset_bottom = 300.0
+text = "Controls:
+	W, A, S, D -- Movement
+	Mouse -- Look
+	Left Click -- Fire ALCHEMY GUN
+	1, 2, 3, 4 -- Change Loaded Potion
+	B -- Buy Shop"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="return" type="TextureButton" parent="tutorial_menu"]
+layout_mode = 0
+offset_left = 401.0
+offset_top = -288.0
+offset_right = 1458.0
+offset_bottom = 17.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("12_cuycr")
+texture_pressed = ExtResource("13_jsal3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.673685, 0.598736, -1.50858)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(-0.840868, 0.0791831, -0.535417, 0.042776, 0.995869, 0.0801002, 0.539548, 0.0444507, -0.840781, -1.73693, 0.746678, -2.76628)
+light_energy = 3.004
+spot_range = 5.57
+spot_angle = 22.63
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.984805, 0, 0.173665, 0, 1, 0, -0.173665, 0, 0.984805, 0.127933, 0.402642, 1.0147)
+spot_range = 5.57
+spot_angle = 67.21
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nefti")
+
+[node name="menu_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gsxyq")
+autoplay = true
+
+[connection signal="pressed" from="main_menu_ui/play_button" to="main_menu_ui" method="_on_play_button_pressed"]
+[connection signal="pressed" from="main_menu_ui/tutorial_button" to="main_menu_ui" method="_on_tutorial_button_pressed"]
+[connection signal="pressed" from="main_menu_ui/quit_button" to="main_menu_ui" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="tutorial_menu/return" to="main_menu_ui" method="_on_return_pressed"]

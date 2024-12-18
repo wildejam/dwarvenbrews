@@ -1,0 +1,135 @@
+[gd_scene load_steps=22 format=3 uid="uid://dkibakpp16oc1"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier.gd" id="1_ltj41"]
+[ext_resource type="Material" uid="uid://b1cnylgo04eyp" path="res://assets/textures/goblin_footsoldier.tres" id="2_xdmnh"]
+[ext_resource type="Script" path="res://Scripts/State/State Machine.gd" id="3_naw0y"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_idle.gd" id="4_5uvad"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_attack.gd" id="5_6ld5s"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_follow.gd" id="5_dv11p"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_damaged.gd" id="6_1c75x"]
+[ext_resource type="Script" path="res://Scripts/Enemies/goblin_footsoldier/goblin_footsoldier_death.gd" id="7_yy2ef"]
+[ext_resource type="AudioStream" uid="uid://wmk6ikw1okit" path="res://assets/sfx/alerted.wav" id="9_yb2t8"]
+[ext_resource type="AudioStream" uid="uid://ce6e54ddpm81a" path="res://assets/sfx/damaged.wav" id="10_r5cdm"]
+[ext_resource type="AudioStream" uid="uid://dbjkoafry61r2" path="res://assets/sfx/death.wav" id="11_gtaeq"]
+[ext_resource type="AudioStream" uid="uid://bdruv3evlraap" path="res://assets/sfx/swing.wav" id="12_elcdu"]
+[ext_resource type="PackedScene" uid="uid://b1ec2uqhon71w" path="res://Scenes/goblin_imports/GobbinSwordInactive.glb" id="13_vdrcx"]
+[ext_resource type="PackedScene" uid="uid://bhfxrfcl3ji5r" path="res://Scenes/goblin_imports/GobbinSwordActive.glb" id="14_w6yf7"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7knao"]
+material = ExtResource("2_xdmnh")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y1uqr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0gc1m"]
+lightmap_size_hint = Vector2i(14, 21)
+material = ExtResource("2_xdmnh")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gd7oa"]
+size = Vector3(1, 1.92123, 1.2218)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pud7t"]
+
+[sub_resource type="Animation" id="Animation_c7ymw"]
+resource_name = "float"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GobbinSwordInactive:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.01, -0.111, -0.077), Vector3(0.01, 0.409, -0.077), Vector3(0.01, 0.089, -0.077)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q50n7"]
+_data = {
+"float": SubResource("Animation_c7ymw")
+}
+
+[node name="goblin_footsoldier" type="CharacterBody3D"]
+script = ExtResource("1_ltj41")
+
+[node name="body_mesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_7knao")
+
+[node name="body_collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_y1uqr")
+
+[node name="sword_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.08, 6.99382e-09, 3.82137e-15, 0, -3.49691e-09, 1, 6.99382e-09, 0.08, 4.37114e-08, -0.5, 0.368, -0.416215)
+visible = false
+mesh = SubResource("BoxMesh_0gc1m")
+skeleton = NodePath("../body_mesh")
+
+[node name="sword_hitbox" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 5
+
+[node name="sword_collision" type="CollisionShape3D" parent="sword_hitbox"]
+transform = Transform3D(0.81, 0, 0, 0, 0.81, 0, 0, 0, 0.81, -7.10543e-15, 0.0720689, 1.01563)
+shape = SubResource("BoxShape3D_gd7oa")
+
+[node name="hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_pud7t")
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_naw0y")
+initial_state = NodePath("goblin_footsoldier_attack")
+
+[node name="goblin_footsoldier_idle" type="Node" parent="State Machine"]
+script = ExtResource("4_5uvad")
+
+[node name="goblin_footsoldier_attack" type="Node" parent="State Machine"]
+script = ExtResource("5_6ld5s")
+
+[node name="goblin_footsoldier_follow" type="Node" parent="State Machine"]
+script = ExtResource("5_dv11p")
+
+[node name="goblin_footsoldier_damaged" type="Node" parent="State Machine"]
+script = ExtResource("6_1c75x")
+
+[node name="goblin_footsoldier_death" type="Node" parent="State Machine"]
+script = ExtResource("7_yy2ef")
+
+[node name="player_raycast" type="RayCast3D" parent="."]
+top_level = true
+target_position = Vector3(0, 0, 1)
+
+[node name="nav_agent" type="NavigationAgent3D" parent="."]
+
+[node name="alerted" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_yb2t8")
+
+[node name="damaged" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_r5cdm")
+
+[node name="death" type="AudioStreamPlayer3D" parent="."]
+process_mode = 3
+stream = ExtResource("11_gtaeq")
+
+[node name="swing" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("12_elcdu")
+
+[node name="GobbinSwordInactive" parent="." instance=ExtResource("13_vdrcx")]
+transform = Transform3D(-0.75, 0, 1.13247e-07, 0, 0.75, 0, -1.13247e-07, 0, -0.75, 0.01, -0.111, -0.077)
+
+[node name="GobbinSwordActive" parent="." instance=ExtResource("14_w6yf7")]
+transform = Transform3D(-0.75, 0, 1.13247e-07, 0, 0.75, 0, -1.13247e-07, 0, -0.75, 0.014429, 0.00369543, -0.077991)
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_q50n7")
+}
+autoplay = "float"

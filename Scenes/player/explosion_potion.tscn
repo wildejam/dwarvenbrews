@@ -1,0 +1,127 @@
+[gd_scene load_steps=18 format=3 uid="uid://b6tqaav7lbuv1"]
+
+[ext_resource type="Script" path="res://Scripts/explosion_potion.gd" id="1_kh5r4"]
+[ext_resource type="AudioStream" uid="uid://dby3ad4nw35lq" path="res://assets/sfx/potion_gun_fire.wav" id="2_4ap34"]
+[ext_resource type="AudioStream" uid="uid://16mgtq65yo1k" path="res://assets/sfx/glass_shatter.wav" id="3_8yehi"]
+[ext_resource type="AudioStream" uid="uid://chq7il62e78ja" path="res://assets/sfx/explosion.wav" id="4_hicfo"]
+[ext_resource type="PackedScene" uid="uid://b54m53m8mfp1o" path="res://Scenes/player/model_imports/PotionExplosion.glb" id="5_d2urn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcnbe"]
+albedo_color = Color(0.82881, 2.71939e-06, 5.77569e-07, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_buc32"]
+material = SubResource("StandardMaterial3D_jcnbe")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3afw"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mqcb8"]
+emission_shape = 1
+emission_sphere_radius = 0.36
+direction = Vector3(0, 0, 0)
+spread = 137.488
+initial_velocity_min = 0.4
+initial_velocity_max = 0.4
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -1.1
+radial_accel_max = -1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6b441"]
+transparency = 1
+albedo_color = Color(1, 0.0627451, 0, 0.227451)
+
+[sub_resource type="SphereMesh" id="SphereMesh_2dyho"]
+material = SubResource("StandardMaterial3D_6b441")
+radius = 0.551
+height = 1.135
+radial_segments = 79
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xp73s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4imrx"]
+transparency = 1
+albedo_color = Color(0.45098, 0.443137, 0.419608, 0.203922)
+
+[sub_resource type="SphereMesh" id="SphereMesh_m3ghe"]
+material = SubResource("StandardMaterial3D_4imrx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_by8su"]
+lifetime_randomness = 0.9
+emission_shape_scale = Vector3(0.2, 0, 0.2)
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 112.457
+gravity = Vector3(0, 0.52, 0)
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm72k"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_p72xb"]
+material = SubResource("StandardMaterial3D_qm72k")
+radius = 0.016
+height = 0.031
+radial_segments = 4
+rings = 2
+
+[node name="explosion_potion" type="RigidBody3D"]
+gravity_scale = 5.004
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_kh5r4")
+
+[node name="explosion_potion_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_buc32")
+skeleton = NodePath("")
+
+[node name="explosion_potion_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("SphereShape3D_r3afw")
+
+[node name="explosion_potion_aoe" type="Area3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+collision_layer = 4
+collision_mask = 3
+monitorable = false
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="explosion_potion_aoe"]
+amount = 50
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_mqcb8")
+draw_pass_1 = SubResource("SphereMesh_2dyho")
+
+[node name="explosion_potion_aoe_collider" type="CollisionShape3D" parent="explosion_potion_aoe"]
+shape = SubResource("SphereShape3D_xp73s")
+
+[node name="explosion_potion_aoe_visual" type="MeshInstance3D" parent="explosion_potion_aoe"]
+visible = false
+mesh = SubResource("SphereMesh_m3ghe")
+
+[node name="potion_gun_fire" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4ap34")
+volume_db = -15.0
+
+[node name="glass_shatter" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_8yehi")
+volume_db = -5.0
+max_db = -10.0
+
+[node name="explosion" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_hicfo")
+volume_db = -10.0
+max_db = -10.0
+
+[node name="potion_particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0191657, 0.204167, 0.326228)
+amount = 63
+randomness = 1.0
+trail_lifetime = 0.11
+process_material = SubResource("ParticleProcessMaterial_by8su")
+draw_pass_1 = SubResource("SphereMesh_p72xb")
+
+[node name="PotionExplosion" parent="." instance=ExtResource("5_d2urn")]
+transform = Transform3D(0.744819, -0.0155421, -0.00527182, 0.00223011, 0.332935, -0.666464, 0.0162596, 0.666287, 0.3329, -0.00420198, 0.0500736, 0.0231723)
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

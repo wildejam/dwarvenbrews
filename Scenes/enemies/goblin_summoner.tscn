@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://bor8mudo6aubl"]
+
+[ext_resource type="Material" uid="uid://b1cnylgo04eyp" path="res://assets/textures/goblin_footsoldier.tres" id="2_2mkg3"]
+[ext_resource type="Script" path="res://Scripts/State/State Machine.gd" id="3_tdm1m"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7knao"]
+material = ExtResource("2_2mkg3")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y1uqr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0gc1m"]
+lightmap_size_hint = Vector2i(14, 21)
+material = ExtResource("2_2mkg3")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pud7t"]
+
+[node name="goblin_summoner" type="CharacterBody3D"]
+
+[node name="body_mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_7knao")
+
+[node name="body_collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_y1uqr")
+
+[node name="staff_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.08, 6.99382e-09, 3.82137e-15, 0, -3.49691e-09, 1, 6.99382e-09, 0.08, 4.37114e-08, -0.00975031, 0.368232, -0.553983)
+mesh = SubResource("BoxMesh_0gc1m")
+skeleton = NodePath("../body_mesh")
+
+[node name="hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="hurtbox_collision" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CapsuleShape3D_pud7t")
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_tdm1m")
+initial_state = NodePath("goblin_summoner_idle")
+
+[node name="goblin_summoner_idle" type="Node" parent="State Machine"]
+
+[node name="goblin_summoner_summon" type="Node" parent="State Machine"]
+
+[node name="goblin_summoner_alerted" type="Node" parent="State Machine"]
+
+[node name="goblin_summoner_damaged" type="Node" parent="State Machine"]
+
+[node name="goblin_summoner_death" type="Node" parent="State Machine"]

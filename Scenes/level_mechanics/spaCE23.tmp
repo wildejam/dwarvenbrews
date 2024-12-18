@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjvoltp5g80ix"]
+
+[ext_resource type="Script" path="res://Scripts/level_mechanics/spawner.gd" id="1_bfy15"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qjtjd"]
+size = Vector3(5, 3, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w5qml"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.121569)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hncgf"]
+material = SubResource("StandardMaterial3D_w5qml")
+size = Vector3(5, 3, 5)
+
+[node name="spawner" type="Node3D"]
+script = ExtResource("1_bfy15")
+
+[node name="spawn_area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spawn_area"]
+shape = SubResource("BoxShape3D_qjtjd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_hncgf")

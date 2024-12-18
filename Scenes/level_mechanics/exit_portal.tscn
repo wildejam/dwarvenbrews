@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dffq8ob2tilvq"]
+
+[ext_resource type="Script" path="res://Scripts/level_mechanics/exit_portal.gd" id="1_jj0xj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ahfgg"]
+size = Vector3(2, 2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_5d68m"]
+inner_radius = 0.9
+
+[node name="exit_portal" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_jj0xj")
+
+[node name="enter_area" type="Area3D" parent="."]
+collision_layer = 4
+
+[node name="enter_area_collider" type="CollisionShape3D" parent="enter_area"]
+shape = SubResource("BoxShape3D_ahfgg")
+
+[node name="portal_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_5d68m")
+skeleton = NodePath("")
+
+[connection signal="body_entered" from="enter_area" to="." method="_on_enter_area_body_entered"]

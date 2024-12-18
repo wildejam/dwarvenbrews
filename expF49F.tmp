@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6tqaav7lbuv1"]
+
+[ext_resource type="Script" path="res://explosion_potion.gd" id="1_eskly"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_buc32"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3afw"]
+
+[node name="explosion_potion" type="RigidBody3D"]
+script = ExtResource("1_eskly")
+
+[node name="explosion_potion_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("SphereMesh_buc32")
+skeleton = NodePath("")
+
+[node name="explosion_potion_collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+shape = SubResource("SphereShape3D_r3afw")
